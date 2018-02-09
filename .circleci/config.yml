@@ -52,7 +52,7 @@ jobs:
       - run:
           name: deploy to dev
           command: |
-            cd temp && rsync -a ./ deploy@dappnews.jujiyangasli.com:/home/deploy/dist/
+            ls -la; cd temp && rsync -a ./ deploy@dappnews.jujiyangasli.com:/home/deploy/dist/
 
 workflows:
   version: 2
