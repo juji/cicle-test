@@ -34,7 +34,7 @@ jobs:
           paths:
             - dist
             - package.json
-            - ecosystem.config.json
+            - ecosystem.config.js
 
   deploy_dev:
     <<: *mainimage
