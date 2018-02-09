@@ -2,7 +2,7 @@ module.exports = {
   apps : [{
     name        : "circle",
     script      : "npm",
-    args        : "start"
+    args        : "start",
     watch       : true,
     env: {
       "NODE_ENV": "development",
