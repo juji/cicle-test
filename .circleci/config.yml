@@ -48,9 +48,10 @@ jobs:
       - run:
           name: deploy to dev
           command: |
-            ls -la /tmp
-            cd /tmp/package
-            rsync -a ./ deploy@dappnews.jujiyangasli.com:/home/deploy/dist/
+            echo 'VerifyHostKeyDNS yes' >> ~/.ssh/config
+            echo 'StrictHostKeyChecking no' >> ~/.ssh/config
+            ls -la /tmp/package
+            rsync -a /tmp/package/ deploy@dappnews.jujiyangasli.com:/home/deploy/dist/
 
 workflows:
   version: 2
