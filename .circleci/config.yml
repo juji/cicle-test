@@ -41,7 +41,7 @@ jobs:
       - run:
           name: deploy to dev
           command: |
-          cd temp && rsync -a ./ deploy@dappnews.jujiyangasli.com:/home/deploy/dist/
+            cd temp && rsync -a ./ deploy@dappnews.jujiyangasli.com:/home/deploy/dist/
 
 workflows:
   version: 2
