@@ -5,9 +5,9 @@
   "license": "MIT",
   "scripts":{
     "prestart": "npm i",
+    "start": "node index.js",
     "build": "babel src -d dist",
-    "start": "node src/index.js",
-    "test": "exit 0",
+    "test": "echo 1",
     "dev": "set -a && . ./.env.${DEV_ENV:-dev} && babel-node index.js"
   },
   "devDependencies": {
