@@ -1,0 +1,21 @@
+{
+  "name": "circle",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts":{
+    "prestart": "npm i",
+    "build": "babel src -d dist",
+    "start": "node src/index.js",
+    "test": "exit 0",
+    "dev": "set -a && . ./.env.${DEV_ENV:-dev} && babel-node index.js"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-inline-dotenv": "^1.1.2",
+    "babel-plugin-transform-inline-environment-variables": "^0.3.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-2": "^6.24.1"
+  }
+}
