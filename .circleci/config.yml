@@ -34,9 +34,9 @@ jobs:
             - v1-dependencies-{{ checksum "package.json" }}
       - run: yarn install
       - run: yarn build
-      - run: mkdir temp && mv dist temp/dist && cp package.json temp/package.json
+      - run: mkdir package && mv dist package/dist && cp package.json package/package.json
       - persist_to_workspace:
-          root: temp
+          root: package
           paths:
             - dist
             - package.json
@@ -45,16 +45,15 @@ jobs:
     <<: *deployjob
     steps:
       - attach_workspace:
-          at: temp
+          at: /tmp/package
       - add_ssh_keys:
           fingerprints:
             - "51:36:2c:23:29:e8:0b:03:a0:a9:b7:70:38:b1:35:9c"
       - run:
           name: deploy to dev
           command: |
-            echo $PWD
-            ls -la
-            cd temp
+            ls -la /tmp
+            cd /tmp/package
             rsync -a ./ deploy@dappnews.jujiyangasli.com:/home/deploy/dist/
 
 workflows:
