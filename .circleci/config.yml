@@ -52,6 +52,24 @@ jobs:
             echo 'StrictHostKeyChecking no' >> ~/.ssh/config
             ls -la /tmp/package
             rsync -a /tmp/package/ deploy@dappnews.jujiyangasli.com:/home/deploy/app/
+  
+  # currently exactly the same as dev, but will use different env
+  deploy_prod:
+    <<: *mainimage
+    steps:
+      - attach_workspace:
+          at: /tmp/package
+      - run: apt-get update && apt-get install -y rsync
+      - add_ssh_keys:
+          fingerprints:
+            - "51:36:2c:23:29:e8:0b:03:a0:a9:b7:70:38:b1:35:9c"
+      - run:
+          name: deploy to dev
+          command: |
+            echo 'VerifyHostKeyDNS yes' >> ~/.ssh/config
+            echo 'StrictHostKeyChecking no' >> ~/.ssh/config
+            ls -la /tmp/package
+            rsync -a /tmp/package/ deploy@dappnews.jujiyangasli.com:/home/deploy/app/
 
 workflows:
   version: 2
@@ -66,7 +84,22 @@ workflows:
           context: circle-dev
           requires:
             - test
+      - build:
+          filters:
+            branches:
+              only:
+                master
+          context: circle-prod
+          requires:
+            - test
       - deploy_dev:
+          filters:
+            branches:
+              only:
+                develop
+          requires:
+            - build
+      - deploy_prod:
           filters:
             branches:
               only:
