@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts":{
     "prestart": "npm i",
-    "start": "node index.js",
+    "start": "node dist/index.js",
     "build": "babel src -d dist",
     "test": "echo 1",
     "dev": "set -a && . ./.env.${DEV_ENV:-dev} && babel-node index.js"
