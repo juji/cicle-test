@@ -51,7 +51,7 @@ jobs:
             echo 'VerifyHostKeyDNS yes' >> ~/.ssh/config
             echo 'StrictHostKeyChecking no' >> ~/.ssh/config
             ls -la /tmp/package
-            rsync -a /tmp/package/ deploy@dappnews.jujiyangasli.com:/home/deploy/dist/
+            rsync -a /tmp/package/ deploy@dappnews.jujiyangasli.com:/home/deploy/app/
 
 workflows:
   version: 2
