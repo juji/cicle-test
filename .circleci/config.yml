@@ -48,8 +48,12 @@ workflows:
   build_deploy:
     jobs:
       - build:
+          filters:
+            branches:
+              only:
+                develop
           context: circle-dev
-      - deploy_dev
+      - deploy_dev:
           filters:
             branches:
               only:
