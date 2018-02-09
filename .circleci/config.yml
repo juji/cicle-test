@@ -9,30 +9,36 @@ deployjob: &deployjob
   docker:
     - image: ubuntu:16.04
 
-usecache: &usecache
-  - checkout
-  - restore_cache:
-      keys:
-        - v1-dependencies-{{ checksum "package.json" }}
-        - v1-dependencies-
-  - run: yarn install
-  - save_cache:
-      paths:
-        - node_modules
-      key: v1-dependencies-{{ checksum "package.json" }}
-
 version: 2
 jobs:
   test:
     <<: *testbuild
     steps:
-      <<: *usecache
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
       - run: yarn test
 
   build:
     <<: *testbuild
     steps:
-      <<: *usecache
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
       - run: yarn build
       - run: mkdir temp && mv dist temp/dist && cp package.json temp/package.json
       - persist_to_workspace:
