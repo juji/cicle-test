@@ -29,12 +29,12 @@ jobs:
             - v1-dependencies-{{ checksum "package.json" }}
       - run: yarn install
       - run: yarn build
-      - run: mkdir package && mv dist package/dist && cp package.json package/package.json
       - persist_to_workspace:
-          root: package
+          root: .
           paths:
             - dist
             - package.json
+            - ecosystem.config.json
 
   deploy_dev:
     <<: *mainimage
