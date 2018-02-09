@@ -4,12 +4,12 @@ defaults: &testbuild
   docker:
     - image: node:9
 
-defaults: &deployjob
+asdf: &deployjob
   working_directory: ~/repo
   docker:
     - image: ubuntu:16.04
 
-defaults: &usecache
+zxcv: &usecache
   - checkout
   - restore_cache:
       keys:
