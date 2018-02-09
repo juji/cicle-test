@@ -1,25 +1,38 @@
 
-defaults: &defaults
+defaults: &testbuild
   working_directory: ~/repo
   docker:
     - image: node:9
 
+default: &deployjob
+  working_directory: ~/repo
+  docker:
+    - image: ubuntu:16.04
+
+defaults: &usecache
+  - checkout
+  - restore_cache:
+      keys:
+        - v1-dependencies-{{ checksum "package.json" }}
+        - v1-dependencies-
+  - run: yarn install
+  - save_cache:
+      paths:
+        - node_modules
+      key: v1-dependencies-{{ checksum "package.json" }}
+
 version: 2
 jobs:
-  build:
-    <<: *defaults
+  test:
+    <<: *testbuild
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
-      - run: yarn install
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+      <<: *usecache
       - run: yarn test
+
+  build:
+    <<: *testbuild
+    steps:
+      <<: *usecache
       - run: yarn build
       - run: mkdir temp && mv dist temp/dist && cp package.json temp/package.json
       - persist_to_workspace:
@@ -29,9 +42,7 @@ jobs:
             - package.json
 
   deploy_dev:
-    working_directory: ~/repo
-    docker:
-      - image: ubuntu:16.04
+    <<: *deployjob
     steps:
       - attach_workspace:
           at: temp
@@ -47,6 +58,7 @@ workflows:
   version: 2
   build_deploy:
     jobs:
+      - test
       - build:
           filters:
             branches:
