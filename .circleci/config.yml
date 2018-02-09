@@ -65,6 +65,8 @@ workflows:
               only:
                 develop
           context: circle-dev
+          requires:
+            test
       - deploy_dev:
           filters:
             branches:
