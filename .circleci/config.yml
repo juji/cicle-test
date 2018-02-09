@@ -1,15 +1,15 @@
 
-defaults: &testbuild
+testbuild: &testbuild
   working_directory: ~/repo
   docker:
     - image: node:9
 
-asdf: &deployjob
+deployjob: &deployjob
   working_directory: ~/repo
   docker:
     - image: ubuntu:16.04
 
-zxcv: &usecache
+usecache: &usecache
   - checkout
   - restore_cache:
       keys:
